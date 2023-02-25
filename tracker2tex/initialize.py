@@ -1,8 +1,8 @@
 import os
 import sys
-from bin.json_scripts import json_dump, json_read
-from bin.data_extract import extract_data
-from bin.tui import clear_term
+from tracker2tex.json_scripts import json_dump, json_read
+from tracker2tex.data_extract import extract_data
+from tracker2tex.tui import clear_term
 import __main__
 
 MAIN_ROOT_DIR = os.path.dirname(os.path.realpath(__main__.__file__))

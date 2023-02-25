@@ -1,9 +1,9 @@
-from bin.json_scripts import json_read
-from bin.initialize import initialize
-from bin.tui import user_input
-from bin.mklatex.table import table_builder
-from bin.mklatex.graph import set_builder
-from bin.num_ops import parse_data_main
+from tracker2tex.json_scripts import json_read
+from tracker2tex.initialize import initialize
+from tracker2tex.tui import user_input
+from tracker2tex.mklatex.table import table_builder
+from tracker2tex.mklatex.graph import set_builder
+from tracker2tex.num_ops import parse_data_main
 print("All binaries successfully imported!")
 import os
 

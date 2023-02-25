@@ -3,7 +3,7 @@ import sigfig
 import __main__
 import os
 import numpy as np
-from bin.tui import user_input, basic_input
+from tracker2tex.tui import user_input, basic_input
 
 MAIN_ROOT_DIR = os.path.dirname(os.path.realpath(__main__.__file__))
 

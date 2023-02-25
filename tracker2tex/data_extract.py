@@ -1,6 +1,6 @@
 import os
-from bin.json_scripts import json_dump
-from bin.num_ops import scinot_to_float
+from tracker2tex.json_scripts import json_dump
+from tracker2tex.num_ops import scinot_to_float
 
 
 def extract_data(data_path:dir, delimeter:str, file_extension:str, data_dumpsite:dir):

@@ -1,6 +1,6 @@
 import os
 import __main__
-from bin.tui import user_input
+from tracker2tex.tui import user_input
 
 main_root_dir = os.path.dirname(os.path.realpath(__main__.__file__))
 
