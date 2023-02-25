@@ -8,9 +8,13 @@ tracker2tex. is a tool that compiles [Tracker](https://tracker.physlets.org/) da
 ## Installation
 
 1. Download the repository
-2. Run ```main.py```
-3. Provide the directory of exported [Tracker](https://tracker.physlets.org/) data files.
-3. Specify a name for the json file where the data will be stored
+2. Install all python requirements in the ```requirements.txt``` file
+```
+pip install -r requirements.txt
+```
+3. Run ```main.py```
+4. Provide the directory of exported [Tracker](https://tracker.physlets.org/) data files.
+5. Specify a name for the json file where the data will be stored
 - Ex: ```data.json```
 
 ## License
