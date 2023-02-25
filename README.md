@@ -1,7 +1,7 @@
 
-# tracker2tex.
+# tracker2tex
 
-tracker2tex. is a tool that compiles [Tracker](https://tracker.physlets.org/) data and compiles it into LaTeX formats.
+tracker2tex is a tool that compiles [Tracker](https://tracker.physlets.org/) data and compiles it into LaTeX formats.
 
 
 
