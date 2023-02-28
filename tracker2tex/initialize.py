@@ -4,6 +4,7 @@ from tracker2tex.json_scripts import json_dump, json_read
 from tracker2tex.data_extract import extract_data
 from tracker2tex.tui import clear_term
 import __main__
+import logging
 
 MAIN_ROOT_DIR = os.path.dirname(os.path.realpath(__main__.__file__))
 
@@ -31,6 +32,7 @@ def welcome_script(preferences_json_dir):
 
 
 def initialize():
+    delimeter = " "
     preferences_json_dir = os.path.join(MAIN_ROOT_DIR, "datanalyze_preferences.json")
     
     """Initializes the program -- preferences
@@ -38,15 +40,15 @@ def initialize():
     Returns:
         Preferences from file
     """
-    print("Initializing...")
+    logging.info("Initializing...")
     preferences = json_read(preferences_json_dir)
     print(preferences_json_dir)
     if preferences == None:
-        print("No preferences found--Running welcome script")
+        logging.info("No preferences found--Running welcome script")
         welcome_script(preferences_json_dir)
         sys.exit("Finished program initialization!")
         preferences = json_read(preferences_json_dir)
-    extract_data(preferences["data_directory"], "	", ".txt", preferences["data_storage_name"])
+    extract_data(preferences["data_directory"], delimeter, ".txt", preferences["data_storage_name"])
     return(preferences)
 
 

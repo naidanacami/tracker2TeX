@@ -1,10 +1,12 @@
+import logging 
+logging.basicConfig(filename='example.log', filemode='w', encoding='utf-8', level=logging.DEBUG)
 from tracker2tex.json_scripts import json_read
 from tracker2tex.initialize import initialize
 from tracker2tex.tui import user_input
 from tracker2tex.mklatex.table import table_builder
 from tracker2tex.mklatex.graph import set_builder
 from tracker2tex.num_ops import parse_data_main
-print("All binaries successfully imported!")
+logging.info("All binaries successfully imported!")
 import os
 
 def main():
