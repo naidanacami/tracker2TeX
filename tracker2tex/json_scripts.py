@@ -2,7 +2,7 @@ import jsbeautifier, json, os
 
 
 def json_dump(data, directory):
-    """Dumps python object to JDON file
+    """Dumps python object to JSON file
 
     Args:
         data (object): The data object to be dumped 
