@@ -156,3 +156,6 @@ testing/
 data_backup/
 *.json
 *.tex
+ttt_venv/
+*.ipynb
+venv_activate.bat
