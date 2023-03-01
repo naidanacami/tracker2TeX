@@ -44,13 +44,17 @@ def gentable(table:dict, output_location:dir, center:bool=False):
     for row in range(len(next(iter(table.values())))):
         formatted_column = []
         for column in table:
-            item = table[column][row]
+            item = table[column][row][0]
+            uncertainty = ""
+            if len(table[column][row]) == 2:        # Then undertainties are included in the dataset
+                if table[column][row][-1] != "":    # There is uncertainty with this value
+                    uncertainty = f"\\pm{table[column][row][-1]}"
             if item != None:
                 if center == True:
-                    item = f"${item}" + "\\enskip"*(column_max_exp_len[column] - exp_len(item)) + "$"
+                    item = f"${item}{uncertainty}" + "\\enskip"*(column_max_exp_len[column] - exp_len(item)) + "$"
                     item = item.replace("\\enskip\\enskip\\enskip\\enskip", "\\qquad").replace("\\enskip\\enskip", "\\quad")
                 else:
-                    item = f"${item}$"
+                    item = f"${item}{uncertainty}$"
             else:
                 item = f"{item}"
             formatted_column.append(item)

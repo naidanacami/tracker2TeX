@@ -8,6 +8,8 @@ from tracker2tex.tui import user_input, basic_input
 MAIN_ROOT_DIR = os.path.dirname(os.path.realpath(__main__.__file__))
 
 
+def uncertainty_round(data:dict) -> dict:
+    pass
 
 
 def scinot_to_float(num:str) -> float:
@@ -117,7 +119,7 @@ def remove_none_set(dataset:dict) -> dict:
     indices_to_remove = []
     for key in dataset:
         for i, item in enumerate(dataset[key]):
-            if item == None:
+            if item[0] == None:                     
                 if i not in indices_to_remove:
                     indices_to_remove.append(i)
     indices_to_remove.sort(reverse=True)

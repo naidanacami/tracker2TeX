@@ -6,12 +6,15 @@ from tracker2tex.tui import user_input
 from tracker2tex.mklatex.table import table_builder
 from tracker2tex.mklatex.graph import set_builder
 from tracker2tex.num_ops import parse_data_main
-logging.info("All binaries successfully imported!")
+from tracker2tex.data_extract import extract_data
+logging.info("All modules successfully imported!")
 import os
 
 def main():
+    delimeter = [" ", "\t"]
     CURR_DIR = os.path.dirname(os.path.realpath(__file__))
     preferences = initialize()
+    extract_data(preferences["data_directory"], delimeter, ".txt", os.path.join(CURR_DIR, preferences["data_storage_name"]))
     
     data = json_read(os.path.join(CURR_DIR, preferences["data_storage_name"]))
     match user_input("Select data operation:", [

@@ -1,4 +1,5 @@
 import jsbeautifier, json, os
+import logging
 
 
 def json_dump(data, directory):
@@ -10,7 +11,8 @@ def json_dump(data, directory):
     """
     opts = jsbeautifier.default_options()
     opts.indent_size = 4
-    with open(os.path.join(directory), "w", encoding="UTF-8") as f:
+    logging.debug(f"JSON - Writing to {directory}")
+    with open(directory, "w", encoding="UTF-8") as f:
         f.write(jsbeautifier.beautify(json.dumps(data), opts))
 
 
