@@ -1,6 +1,5 @@
 import logging 
 logging.basicConfig(filename='log.log', filemode='w', encoding='utf-8', level=logging.DEBUG)
-from tracker2tex.json_scripts import json_read
 from tracker2tex.initialize import initialize
 from tracker2tex.tui import user_input, basic_input
 from tracker2tex.num_ops import remove_dataopints, sigdig_rounding
@@ -82,7 +81,7 @@ Select data parsing operation:""".format(chosen_dataset.split('\\')[-1])):
                 "Table",
     ], query="""Select thing:"""):
         case "Table":
-            table_builder(dataframe, "ur_mom.txt")
+            table_builder(dataframe, basic_input(prompt="Output Filename  >", anstype=str))
 
 if __name__ == "__main__":
     main()

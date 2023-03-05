@@ -7,7 +7,7 @@ import decimal as d
 import sigfig as sf
 import uncertainties as u
 from tracker2tex.tui import user_input, basic_input, clear_term
-from tracker2tex.num_ops import sigdig_rounding, float_to_scienfitic, max_exp_len, exp_len, remove_dataopints, remove_none_set
+from tracker2tex.num_ops import sigdig_rounding, float_to_scienfitic, max_exp_len, exp_len
 
 
 MAIN_ROOT_DIR = os.path.dirname(os.path.realpath(__main__.__file__))

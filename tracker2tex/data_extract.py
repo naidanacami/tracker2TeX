@@ -1,11 +1,8 @@
 import os
-from tracker2tex.json_scripts import json_dump
 from tracker2tex.num_ops import scinot_to_float
 import logging
 import re
-import itertools
 import sys
-import pprint
 import uncertainties as u
 import pandas as pd
 
