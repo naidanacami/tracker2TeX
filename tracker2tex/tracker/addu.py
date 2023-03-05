@@ -1,5 +1,4 @@
 import uncertainties as u
-import numpy as np
 import pandas as pd
 import sigfig as sf
 import logging

@@ -3,7 +3,6 @@ import sigfig
 import __main__
 import os
 import numpy as np
-from tracker2tex.tui import user_input, basic_input
 import uncertainties as u
 
 MAIN_ROOT_DIR = os.path.dirname(os.path.realpath(__main__.__file__))

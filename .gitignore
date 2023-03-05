@@ -159,3 +159,5 @@ data_backup/
 ttt_venv/
 *.ipynb
 venv_activate.bat
+extracted_data/
+additional_csvs.txt
