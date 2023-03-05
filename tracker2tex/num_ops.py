@@ -4,12 +4,9 @@ import __main__
 import os
 import numpy as np
 from tracker2tex.tui import user_input, basic_input
+import uncertainties as u
 
 MAIN_ROOT_DIR = os.path.dirname(os.path.realpath(__main__.__file__))
-
-
-def uncertainty_round(data:dict) -> dict:
-    pass
 
 
 def scinot_to_float(num:str) -> float:
@@ -27,18 +24,29 @@ def scinot_to_float(num:str) -> float:
         return(None)
 
 
-def sigdig_rounding(data:dict, digs:int) -> dict:
-    for key in data:
-        for i, item in enumerate(data[key]):
-            if item == None:
-                continue
-            # Sometimes the trailing zeroes are not included (thanks, numpy <3). The first one rounds it, sometimes not keeping the trailing zeroes.
-            # The second round adds 0001 which would not affect the rounding of the number
-            data[key][i] = np.format_float_positional(item, precision=digs, unique=False, fractional=False, trim='k')
-            if float(data[key][i]) != 0:
-                data[key][i] = np.format_float_positional(float(str(data[key][i])+"0001"), precision=digs, unique=False, fractional=False, trim='k')
-    return(data)
+def sigdig_rounding(dataframe, digs:int, round_error_values:bool=False, uncertainty_delimeter:str="+/-"):
+    """Rounds values 
 
+    Args:
+        data (DataFrame): Pandas DataFrame
+        digs (int): Number of sigdigs to round to
+        round_error_values (bool): Whether to round values with errors'
+        uncertainty_delimeter (str): str that deliniates the error
+    """     
+    for col in dataframe:
+        for row in dataframe.index:
+            value = dataframe[col][row]
+            if str(value) == "nan":
+                continue
+            if uncertainty_delimeter in str(value):
+                if round_error_values == True:
+                    dataframe = dataframe.replace(value, "{:.1u}".format(u.ufloat_fromstr("{:.1u}".format(u.ufloat_fromstr(value)))))
+                    continue
+            rounded_value = np.format_float_positional(float(value), precision=digs, unique=False, fractional=False, trim='k')
+            if float(rounded_value) != 0:
+                rounded_value = np.format_float_positional(float(str(rounded_value)+"00001"), precision=digs, unique=False, fractional=False, trim='k')
+            dataframe = dataframe.replace(value, rounded_value)
+    return(dataframe)
 
 def float_to_scienfitic(data:dict) -> dict:
     digit = None
@@ -70,61 +78,33 @@ def max_exp_len(data):
     return(max_length)
 
 
-def parse_data_main(dataset:dict):
-    tab = "\t"
-    while True:
-        match user_input("Select data parsing operation (q to export)", [
-            "Remove None Sets",
-            "Remove Datapoints",
-            "SigDig"
-        ], "q"):
-                case "Remove None Sets":
-                    dataset = remove_none_set(dataset)
-                case "Remove Datapoints":
-                    number_of_datapoints = len(next(iter(dataset.values())))
-                    while True:
-                        datapoints_to_keep = basic_input(f"Number of datapoints to keep (max {number_of_datapoints})", int)
-                        if datapoints_to_keep <= number_of_datapoints:
-                            break
-                    dataset = remove_dataopints(dataset, datapoints_to_keep)
-                case "SigDig":
-                    dataset = sigdig_rounding(dataset, int(basic_input("Number of sigdigs", int)))
-                case None:
-                    break
-    with open(os.path.join(MAIN_ROOT_DIR, input("Export name  >")), "w", encoding="UTF-8") as f:
-        for column in dataset:
-            f.write(f"{column}{tab}")
-        f.write("\n")
-        for row in range(len(next(iter(dataset.values())))):
-            for column in dataset:
-                f.write(str(dataset[column][row]))
-                f.write(tab)
-            f.write("\n")
+
+def remove_dataopints(dataframe, datapoints_to_keep:int):
+    """Keeps a defined numer of datapoints from a pandas DataFame
+
+    Args:
+        dataframe (DataFrame): pandas DataFrame  to parse
+        datapoints_to_keep (int): The total number of datapoints to keep
+    """
+    indices_to_keep = np.round(np.linspace(0,len(dataframe.index.to_numpy())-1,datapoints_to_keep)).astype(int)
+    return(dataframe.iloc[indices_to_keep.tolist()])
 
 
-def remove_dataopints(dataset, datapoints_to_keep:int):
-    indices_to_keep = np.round(np.linspace(0,len(next(iter(dataset.values())))-1,datapoints_to_keep)).astype(int)
-    new_dataset = {}
-    for key in dataset:
-        new_dataset[key] = [dataset[key][i] for i in indices_to_keep]
-    return(new_dataset)
-
-
-def remove_none_set(dataset:dict) -> dict:
+def remove_none_set(dataframe) -> dict:
     """Removes all sets of data that contain a "None" element
 
     Args:
-        dataset (dict): single dataset dict
+        dataframe (DataFrame): single dataframe dataframe
     """
     indices_to_remove = []
-    for key in dataset:
-        for i, item in enumerate(dataset[key]):
+    for key in dataframe:
+        for i, item in enumerate(dataframe[key]):
             if item[0] == None:                     
                 if i not in indices_to_remove:
                     indices_to_remove.append(i)
     indices_to_remove.sort(reverse=True)
-    for i, key in enumerate(dataset):
+    for i, key in enumerate(dataframe):
         for index in indices_to_remove:
-            del dataset[key][index]
+            del dataframe[key][index]
 
-    return(dataset)
+    return(dataframe)

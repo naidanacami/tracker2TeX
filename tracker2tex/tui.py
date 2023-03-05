@@ -14,29 +14,37 @@ def get_type(input_data):
         return(str)
 
 
-def user_input(query:str, answers:list, escape_char:str=None, nullify:list=[]):
+def user_input(query:str, answers:list, escape_char:str=None, nullify:list=None, mask:list=None):
     """Gets user input
 
     Args:
         query (str): What to ask the user
         answers (list): The list of acceptable answers
         escape_char (str) (optional): escape squence--returns None
-        nulligy (list) (optional): Answers to remove from list
-
+        nullify (list:optional): Answers to remove from list
+        mask (list:optional): what to display instead of "answers". Still returns answers.
     Returns:
         User's input (Item from given list). Returns None if escape char used
     """
+    # To avoid creating shared lists
+    if nullify == None:
+        nullify = []
+    if mask == None:
+        mask = []
     clear_term()
     invalid_answers = []
     while True:
         print(query)
         for index, item in enumerate(answers):
             index += 1
+            display = item
+            if mask != [] and len(mask) == len(answers):
+                display = mask[index-1]
             if item in nullify:
-                print(len(f"[{index}] - {item}")*"-")
+                print(len(f"[{index}] - {display}")*"-")
                 invalid_answers.append(index-1)
             else:
-                print(f"[{index}] - {item}")
+                print(f"[{index}] - {display}")
 
         # Gets user input
         if escape_char != None:
