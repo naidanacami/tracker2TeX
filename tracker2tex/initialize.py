@@ -38,6 +38,9 @@ def initialize():
         Preferences from file
     """
     logging.info("Initializing...")
+    
+    if os.path.isdir(os.path.join(MAIN_ROOT_DIR, "export")) == False:
+        os.mkdir(os.path.join(MAIN_ROOT_DIR, "export"))
     preferences = json_read(preferences_json_dir)
     print(preferences_json_dir)
     if preferences == None:

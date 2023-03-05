@@ -31,9 +31,13 @@ def sigdig_rounding(dataframe, digs:int, round_error_values:bool=False, uncertai
         digs (int): Number of sigdigs to round to
         round_error_values (bool): Whether to round values with errors'
         uncertainty_delimeter (str): str that deliniates the error
-    """     
+    """
+    current_value = 0
+    total_values = dataframe.count().sum()
+    print(f"Rounding values... ({current_value}/{total_values})\r", end="")
     for col in dataframe:
         for row in dataframe.index:
+            print(f"Rounding values... ({current_value}/{total_values})\r", end="")
             value = dataframe[col][row]
             if str(value) == "nan":
                 continue

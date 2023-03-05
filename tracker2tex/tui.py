@@ -1,5 +1,9 @@
 import os
+import __main__
 from ast import literal_eval
+
+
+MAIN_ROOT_DIR = os.path.dirname(os.path.realpath(__main__.__file__))
 
 
 def clear_term():
@@ -95,3 +99,10 @@ def basic_input(prompt:str, anstype:type) -> str:
             return(float(uin))
         elif bool == uin_type:
             return(bool(uin))
+
+
+def get_export_name(prompt):
+    directory = basic_input(prompt=prompt, anstype=str)
+    if os.path.isdir(directory.split("\\")[-1]) == True:
+        return(directory)
+    return(os.path.join(os.path.join(MAIN_ROOT_DIR, "export"), directory))

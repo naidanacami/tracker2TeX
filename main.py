@@ -1,7 +1,7 @@
 import logging 
 logging.basicConfig(filename='log.log', filemode='w', encoding='utf-8', level=logging.DEBUG)
 from tracker2tex.initialize import initialize
-from tracker2tex.tui import user_input, basic_input
+from tracker2tex.tui import user_input, basic_input, get_export_name, clear_term
 from tracker2tex.num_ops import remove_dataopints, sigdig_rounding
 from tracker2tex.data_extract import csv_update
 from tracker2tex.mklatex.table import table_builder
@@ -28,8 +28,8 @@ def main():
     else:
         with open(extra_csv_input, "r", encoding="UTF-8") as f:
             for i, line in enumerate(f):
-                filedir = line.strip("\n")
-                if filedir.endswith(".csv") and os.path.isdir(filedir):
+                filedir = line.strip("\n").strip("'\"")
+                if filedir.endswith(".csv") and os.path.isfile(filedir):
                     csvs.append(filedir)
                 else:
                     logging.warning(f"Extra file input on line {i} is invalid! {filedir}")
@@ -62,15 +62,18 @@ Select data parsing operation:""".format(chosen_dataset.split('\\')[-1])):
                 dataframe = remove_dataopints(dataframe, datapoints_to_keep)
             case "Round Values":
                 round_uncertainties = False
+                clear_term()
+                sigdigs = 1
                 # Implemented before bunction creation. Should be refactored out. Too bad!
                 try:    # Only certain values?
-                    # True in np.column_stack([dataframe[col].astype(str).str.contains(r"\+/-").any() for col in dataframe])
                     dataframe.astype(float)
+                    print("No uncertainties found!")
                     sigdigs = basic_input("Number of sigdigs", int)
                 except ValueError:  # There are uncertainties
                     if sum([dataframe[c].astype(str).str.contains(pm).sum() for c in dataframe]) != dataframe.count().sum():    # Only uncertainties?
+                        print("Found mixed uncertainties!")
                         sigdigs = basic_input("Number of sigdigs", int)
-                    if input("Round values with undertainties to uncertainty? [Y/n] ").lower() == "y":
+                    if input("Round values with uncertainties to uncertainty? [Y/n] ").lower() == "y":
                         round_uncertainties = True
                 dataframe = sigdig_rounding(dataframe=dataframe, digs=sigdigs, round_error_values=round_uncertainties)
             case "Add Uncertainty (Tracker Only)":
@@ -82,9 +85,9 @@ Select data parsing operation:""".format(chosen_dataset.split('\\')[-1])):
                 "Export to CSV"
     ], query="""Select thing:"""):
         case "Table":
-            table_builder(dataframe, basic_input(prompt="Output Filename  >", anstype=str))
+            table_builder(dataframe, get_export_name(prompt="Output Filename"))
         case "Export to CSV":
-            export_to_csv(dataframe=dataframe, directory=os.path.join(CURR_DIR, basic_input(prompt="Export name", anstype=str)))
+            export_to_csv(dataframe=dataframe, directory=get_export_name(prompt="Export name"))
 
 if __name__ == "__main__":
     main()

@@ -161,3 +161,4 @@ ttt_venv/
 venv_activate.bat
 extracted_data/
 additional_csvs.txt
+export/
