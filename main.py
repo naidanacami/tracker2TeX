@@ -6,10 +6,9 @@ from tracker2tex.num_ops import remove_dataopints, sigdig_rounding
 from tracker2tex.data_extract import csv_update
 from tracker2tex.mklatex.table import table_builder
 from tracker2tex.tracker.addu import add_uncertainties
+from tracker2tex.csv.to_csv import export_to_csv
 import os
 import pandas as pd
-import numpy as np
-import pprint
 logging.info("All modules successfully imported!")
 
 
@@ -63,6 +62,7 @@ Select data parsing operation:""".format(chosen_dataset.split('\\')[-1])):
                 dataframe = remove_dataopints(dataframe, datapoints_to_keep)
             case "Round Values":
                 round_uncertainties = False
+                # Implemented before bunction creation. Should be refactored out. Too bad!
                 try:    # Only certain values?
                     # True in np.column_stack([dataframe[col].astype(str).str.contains(r"\+/-").any() for col in dataframe])
                     dataframe.astype(float)
@@ -79,9 +79,12 @@ Select data parsing operation:""".format(chosen_dataset.split('\\')[-1])):
 
     match user_input(answers=[
                 "Table",
+                "Export to CSV"
     ], query="""Select thing:"""):
         case "Table":
             table_builder(dataframe, basic_input(prompt="Output Filename  >", anstype=str))
+        case "Export to CSV":
+            export_to_csv(dataframe=dataframe, directory=os.path.join(CURR_DIR, basic_input(prompt="Export name", anstype=str)))
 
 if __name__ == "__main__":
     main()

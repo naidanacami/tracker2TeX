@@ -107,3 +107,24 @@ def remove_none_set(dataframe) -> dict:
             del dataframe[key][index]
 
     return(dataframe)
+
+
+def check_uncertainties(dataframe, uncertainty_delimeter:str):
+    """Checks if there are uncertainties in a dataframe
+
+    Args:
+        dataframe (DataFrame): Pandas DataFrame
+        uncertainty_delimeter (str): String that deliniates the uncertainty
+
+    Returns:
+        0 - There are NO uncertain values
+        1 - There are ONLY uncertain values
+        2 - Mix of certain and uncertain values
+    """
+    try:    # Only certain values?
+        dataframe.astype(float)         # uncertain values cannot be turned into floats
+        return(0)
+    except ValueError:  # There are uncertainties
+        if sum([dataframe[c].astype(str).str.contains(uncertainty_delimeter).sum() for c in dataframe]) != dataframe.count().sum():    # Only uncertainties?
+            return(1)
+        return(2)

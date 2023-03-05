@@ -2,3 +2,4 @@ pandas
 jsbeautifier
 uncertainties
 sigfig
+numpy

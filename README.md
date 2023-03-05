@@ -7,6 +7,8 @@ tracker2tex is a tool that compiles [Tracker](https://tracker.physlets.org/) dat
 
 ## Installation
 
+**-- REQUIRES PYTHON 3.10 OR LATER --**
+
 1. Download the repository
 2. Install all python requirements in the ```requirements.txt``` file
 ```
