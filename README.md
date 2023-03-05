@@ -16,8 +16,8 @@ pip install -r requirements.txt
 ```
 3. Run ```main.py```
 4. Provide the directory of exported [Tracker](https://tracker.physlets.org/) data files.
-5. Specify a name for the json file where the data will be stored
-- Ex: ```data.json```
+5. Specify a name for the folder where the data will be stored
+- Ex: ```data```
 
 ## License
 
