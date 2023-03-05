@@ -23,10 +23,9 @@ def welcome_script(preferences_json_dir):
         print("Please enter a valid file directory!")
 
     # data storage name
-    preferences["data_storage_name"] = input("Enter name of the data storage file  >")
-    if not preferences["data_storage_name"].endswith(".json"):
-        preferences["data_storage_name"] = preferences["data_storage_name"] + ".json"
-
+    preferences["data_storage_name"] = os.path.join(MAIN_ROOT_DIR, input("Enter name of the data storage folder  >"))
+    if os.path.isdir(preferences["data_storage_name"]) == False:
+        os.mkdir(preferences["data_storage_name"])
     json_dump(preferences, preferences_json_dir)
 
 
@@ -49,3 +48,8 @@ def initialize():
     return(preferences)
 
 
+def get_extra_datafiles(extra_datafiles_file:dir):
+    additional_datafiles = []
+    with open(extra_datafiles_file, "r", encoding="UTF-8") as f:
+        for line in f:
+            line = line.replace("\n", "")
