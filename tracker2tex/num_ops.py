@@ -3,6 +3,7 @@ import sigfig
 import __main__
 import os
 import numpy as np
+import decimal as d
 import uncertainties as u
 
 MAIN_ROOT_DIR = os.path.dirname(os.path.realpath(__main__.__file__))
@@ -37,6 +38,7 @@ def sigdig_rounding(dataframe, digs:int, round_error_values:bool=False, uncertai
     print(f"Rounding values... ({current_value}/{total_values})\r", end="")
     for col in dataframe:
         for row in dataframe.index:
+            current_value += 1
             print(f"Rounding values... ({current_value}/{total_values})\r", end="")
             value = dataframe[col][row]
             if str(value) == "nan":
